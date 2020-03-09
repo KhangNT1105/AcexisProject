@@ -2,6 +2,7 @@ let tbodyTag = document.querySelector('tbody');
 let formTag = document.querySelector('form');
 let resetButton = document.querySelector('.reset');
 let winnerTag = document.querySelector('.winner');
+let consecutiveCells = 3;
 let arr = [];
 let isX;
 let xWin;
@@ -36,7 +37,7 @@ function renderTable(col = 3) {
 renderTable();
 function handleSubmit(e) {
     let quantityColRow = parseInt(formTag.querySelector('.quantityColRow').value);
-    let consecutiveCells = parseInt(formTag.querySelector('.consecutiveCells').value);
+    consecutiveCells = parseInt(formTag.querySelector('.consecutiveCells').value);
     console.log(quantityColRow, consecutiveCells);
     renderTable(quantityColRow);
     console.log(arr);
@@ -44,32 +45,44 @@ function handleSubmit(e) {
 
     e.preventDefault();
 }
-function checkWinnerRow(newArr) {
+function checkWinnerRow(newArr, consecutiveCells) {
+
     for (let i = 0; i < newArr.length; i++) {
-        xWin = newArr[i].every(item => item === 1);
-        yWin = newArr[i].every(item => item === 2);
-        if (xWin || yWin) {
-            winnerTag.textContent = `${xWin ? 'X' : 'O'} is winner`;
-            tbodyTag.style.pointerEvents = 'none';
-            return;
+      
+        let xCount = 0;
+        let yCount = 0;
+        for (let j = 0; j < newArr.length; j++) {
+            if (newArr[i][j] === 1) {
+                xCount++;
+            }
+            if (newArr[i][j] === 2) {
+                yCount++;
+            }
+            console.log(xCount, yCount);
+            if (xCount === consecutiveCells || yCount === consecutiveCells) {
+                winnerTag.textContent = `${xCount === consecutiveCells ? 'X' : 'O'} is winner`;
+                tbodyTag.style.pointerEvents = 'none';
+                return;
+            }
         }
+
     }
 }
-function checkWinner(arr) {
-    //Kiểm tra 1 hàng có full X hay Y hay ko
-    checkWinnerRow(arr);
+function checkWinner(arr, consecutiveCells) {
+    //Kiểm tra 1 hàng có full X  hay Y hay ko
+    checkWinnerRow(arr, consecutiveCells);
     //Swap row =>col
     //    1,2,0            1,1,1
     //    1,2,0     =>     2,2,0  
     //    1,0,0            0,0,0
     let newArr = arr.map((row, rowIndex) => arr.map(val => val[rowIndex]))
     console.log(newArr);
-    checkWinnerRow(newArr);
+    checkWinnerRow(newArr, consecutiveCells);
     //Check đường chéo chính & phụ
-    checkWinnerDiagonal(arr);
+    checkWinnerDiagonal(arr, consecutiveCells);
 
 }
-function checkWinnerDiagonal(arr) {
+function checkWinnerDiagonal(arr, consecutiveCells) {
     let xCount = 0;
     let yCount = 0;
     for (let i = 0; i < arr.length; i++) {
@@ -80,8 +93,8 @@ function checkWinnerDiagonal(arr) {
             yCount++;
         }
     }
-    if (xCount === 3 || yCount === 3) {
-        winnerTag.textContent = `${xCount === 3 ? 'X' : 'O'} is winner`;
+    if (xCount === consecutiveCells || yCount === consecutiveCells) {
+        winnerTag.textContent = `${xCount === consecutiveCells ? 'X' : 'O'} is winner`;
         tbodyTag.style.pointerEvents = 'none';
         return;
     }
@@ -100,7 +113,7 @@ function check(e) {
         arr[col][row] = 2;
     }
     isX = !isX;
-    checkWinner(arr);
+    checkWinner(arr, consecutiveCells);
 }
 function handleReset() {
     renderTable(3);

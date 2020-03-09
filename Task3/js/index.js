@@ -9,7 +9,7 @@ let count = 0;
 let xFood = 0;
 let yFood = 0;
 let snakeTail;
-let isModA = false;
+let isModA = true;
 //Keycode : 37 Left 
 //Keycode : 38 Up 
 //Keycode : 39 Right 
@@ -27,19 +27,7 @@ function renderMatrix() {
     }
     tbody.innerHTML = templateStr;
 }
-// switch (keyCode) {
-//     case 37:
 
-//         break;
-//     case 38:
-//         break;
-//     case 39:
-//         break;
-//     case 40:
-//         break;
-//     default:
-//         break;
-// }
 renderMatrix();
 
 function renderRandomFood() {
@@ -56,10 +44,8 @@ function snakeMove(keyCode = 39) {
     let tdTag = tbody.querySelector(`[data-row='${head}'][data-col='${tail}']`);
     tdTag.classList.add('active');
     interval = setInterval(() => {
-
         switch (keyCode) {
             case 37:
-
                 handleArrowRight(false);
                 break;
             case 38:
@@ -76,16 +62,11 @@ function snakeMove(keyCode = 39) {
         }
 
 
-        console.log('move : ', tail, head);
-    }, 500)
-    console.log(tdTag);
+    }, 200)
 }
 function handleArrowRight(isRight = true) {
-    // if (count < length) {
-    //     snakeTail
-    //     count++;
-    // }
-    if (head < 0 || tail < 0 || head > 19 || tail > 19) {
+    console.log(head)
+    if (head < 0 || head > 18) {
         isModA ? handleModA() : handleModB();
         return;
     }
@@ -94,15 +75,13 @@ function handleArrowRight(isRight = true) {
     tdTag.classList.remove('active');
     tdTag = tbody.querySelector(`[data-row='${head}'][data-col='${tail}']`);
     tdTag.classList.add('active');
-    console.log("snakeTail", snakeTail);
     if ((head === xFood && tail === yFood) || (head === yFood && tail === xFood)) {
         renderRandomFood();
         length++;
-        console.log('pingpong');
     }
 }
 function handleArrowUp(isUp = true) {
-    if (head < 0 || tail < 0 || head > 19 || tail > 19) {
+    if (tail < 0 || tail > 19) {
         isModA ? handleModA() : handleModB();
         return;
     }
@@ -111,11 +90,9 @@ function handleArrowUp(isUp = true) {
     tdTag.classList.remove('active');
     tdTag = tbody.querySelector(`[data-row='${head}'][data-col='${tail}']`);
     tdTag.classList.add('active');
-    console.log("snakeTail", snakeTail);
     if ((head === xFood && tail === yFood) || (head === yFood && tail === xFood)) {
         renderRandomFood();
         length++;
-        console.log('pingpong');
     }
 }
 function handleKeyUp(e) {
@@ -126,25 +103,25 @@ function handleKeyUp(e) {
 }
 function handleModA() {
     clearInterval(interval);
-    document.querySelector('status').textContent = 'You lose';
+    document.querySelector('.status').textContent = 'You lose';
     return;
 }
 function handleModB(keyCode) {
-    switch (keyCode) {
-        case 37:
+    // switch (keyCode) {
+    //     case 37:
 
-            break;
-        case 38:
-            break;
-        case 39:
-            break;
-        case 40:
-            break;
-        default:
-            break;
-    }
+    //         break;
+    //     case 38:
+    //         break;
+    //     case 39:
+    //         break;
+    //     case 40:
+    //         break;
+    //     default:
+    //         break;
+    // }
 }
 snakeMove()
 window.addEventListener('keyup', handleKeyUp)
-document.querySelector('.modA').addEventListener('click', handleModA)
-document.querySelector('.modB').addEventListener('click', handleModB)
+document.querySelector('.modA').addEventListener('click', () => isModA = true)
+document.querySelector('.modB').addEventListener('click', () => isModA = false)
