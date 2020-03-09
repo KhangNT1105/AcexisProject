@@ -9,7 +9,9 @@ let count = 0;
 let xFood = 0;
 let yFood = 0;
 let snakeTail;
+let stop = false;
 let isModA = true;
+let check = false;
 //Keycode : 37 Left 
 //Keycode : 38 Up 
 //Keycode : 39 Right 
@@ -66,10 +68,11 @@ function snakeMove(keyCode = 39) {
 }
 function handleArrowRight(isRight = true) {
     console.log(head)
-    if (head < 0 || head > 18) {
+    if (head < 1 || head > 18) {
         isModA ? handleModA() : handleModB();
         return;
     }
+    
     snakeTail = isRight ? head++ - length : head-- + length;
     let tdTag = tbody.querySelector(`[data-row='${snakeTail}'][data-col='${tail}']`);
     tdTag.classList.remove('active');
@@ -81,7 +84,7 @@ function handleArrowRight(isRight = true) {
     }
 }
 function handleArrowUp(isUp = true) {
-    if (tail < 0 || tail > 19) {
+    if (tail < 1 || tail > 18) {
         isModA ? handleModA() : handleModB();
         return;
     }
@@ -96,7 +99,7 @@ function handleArrowUp(isUp = true) {
     }
 }
 function handleKeyUp(e) {
-    if (e.keyCode !== 37 && e.keyCode !== 38 && e.keyCode !== 39 && e.keyCode !== 40) return;
+    if (e.keyCode !== 37 && e.keyCode !== 38 && e.keyCode !== 39 && e.keyCode !== 40 || stop) return;
     count = 0;
     snakeMove(e.keyCode);
     console.log(e.keyCode);
@@ -104,6 +107,7 @@ function handleKeyUp(e) {
 function handleModA() {
     clearInterval(interval);
     document.querySelector('.status').textContent = 'You lose';
+    stop = true;
     return;
 }
 function handleModB(keyCode) {
