@@ -1,0 +1,35 @@
+body {
+    padding: 0;
+    margin: 0;
+
+}
+table{
+    width:80%;
+    height: 100vh;
+}
+table tbody tr td {
+  
+    /* display: flex;
+    justify-content: center;
+    align-items: center; */
+    text-align: center;
+    border: 1px solid black;
+    font-size: 30px;
+
+}
+td.active{
+    background-color:black;
+}
+td.food{
+    background-color: red;
+}
+.mod{
+    position: fixed;
+    right:0;
+    top:0;
+}
+.status{
+    color:red;
+    font-size: 50px;
+    /* right:20px; */
+}

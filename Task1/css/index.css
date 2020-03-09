@@ -1,0 +1,65 @@
+body {
+    font-family: 'Oxanium', cursive;
+
+}
+
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.quantity {
+    position: fixed;
+    top: 0;
+    left: 0;
+}
+
+input {
+    margin-top: 10px;
+    width: 300px;
+    padding: 10px;
+    border: none;
+    border-bottom: 2px solid rgba(0, 0, 0, 0.3);
+    transition: .3s;
+
+}
+
+input:focus {
+    outline: none;
+    border-bottom: 2px solid black;
+
+}
+
+button.playing,button.reset {
+    padding: 10px;
+    margin-top: 10px;
+}
+
+table {
+    border-spacing: 0px;
+}
+
+table tbody tr td {
+    width: 50px;
+    height: 50px;
+    /* display: flex;
+    justify-content: center;
+    align-items: center; */
+    text-align: center;
+    border: 1px solid black;
+    font-size: 30px;
+
+}
+
+.winner {
+    position: fixed;
+    bottom: 0;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    /* margin-top: 100px; */
+    color: red;
+    font-weight: 800;
+    font-size: 50px;
+}
